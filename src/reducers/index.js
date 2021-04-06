@@ -1,5 +1,5 @@
 import { MOVE_OBJECT } from '../actions';
-import { moveObjects } from '../actions/index';
+import moveObjects from './moveObjects';
 
 const initialState = {
     angle: 45,

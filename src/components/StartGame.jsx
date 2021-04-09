@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { gameWidth } from '../utils/constants'
 
 const StartGame = (props) => {
-    const buttons = {
+    const button = {
         x: gameWidth / -2, 
         y: -280,
         width: gameWidth,
@@ -19,7 +19,7 @@ const StartGame = (props) => {
 
     const text = {
         textAnchor: 'middle',
-        x: 0, yy: -150,
+        x: 0, y: -150,
         style: {
             fontFamily: '"Joti One", cursive',
             fontSize: 60,
@@ -27,7 +27,7 @@ const StartGame = (props) => {
             cursor: 'pointer',
         },
         onClick: props.onClick,
-    },
+    };
 
     return (
         <g filter="url(#shadow)">

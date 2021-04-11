@@ -20,7 +20,7 @@ const Canvas = (props) => {
       preserveAspectRatio="xMaxYMax none"
       onMouseMove={props.trackMouse}
       viewBox={viewBox}
-    >
+      >
         <defs>
           <filter id="shadow">
             <feDropShadow dx="1" dy="1" stdDeviation="2" />
@@ -30,20 +30,49 @@ const Canvas = (props) => {
         <Ground />
         <CannonPipe rotation={props.angle}/>
         <CannonBase />
-        <CannonBall  position={{x: 0, y: -100}} />
         <CurrentScore score={15} />
-        <FlyingObject position={{x: -150, y: -300}} />
-        <FlyingObject position={{x: 150, y: -300}} />
-        <Heart position={{x: -580, y: 35}} />
-        <StartGame onClick={() => console.log('Aliens, Go Home!')} />
-        <Title />
+
+        { ! props.gameState.started &&
+          <g>
+            <StartGame onClick={() => props.startGame()} />
+            <Title />
+          </g>
+        }
+
+        {props.gameState.started &&
+          <g>
+            <FlyingObject position={{x: -150, y: -300}} />
+            <FlyingObject position={{x: 150, y: -300}} />
+          </g>
+        }
+
+        {
+          props.gameState.flyingObjects.map(flyingObject => (
+            <FlyingObject
+              key={flyingObject.id}
+              position={flyingObject.position}
+            />
+          ))}
     </svg>
   );
 };
 
 Canvas.propTypes = {
   angle: PropTypes.number.isRequired,
+  gameState: PropTypes.shape({
+    started: PropTypes.bool.isRequired,
+    kill: PropTypes.number.isRequired,
+    lives: PropTypes.number.isRequired,
+    flyingObjects: PropTypes.arrayOf(PropTypes.shape({
+      position: PropTypes.shape({
+        x: PropTypes.number.isRequired,
+        y: PropTypes.number.isRequired
+      }).isRequired,
+      id: PropTypes.number.isRequired,
+    })).isRequired,
+  }).isRequired,
   trackMouse: PropTypes.func.isRequired,
+  startGame: PropTypes.func.isRequired
 }
 
 export default Canvas;

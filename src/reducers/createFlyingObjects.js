@@ -1,4 +1,4 @@
-import { createInterval, flyingObjectStarterYAxis, 
+import { createInterval, flyingObjectsStarterYAxis, 
     maxFlyingObjects, flyingObjectsStarterPositions } from '../utils/constants';
 
 export default (state) => {
@@ -18,7 +18,7 @@ export default (state) => {
     const newFlyingObject = {
         position: {
             x: flyingObjectPosition,
-            y: flyingObjectStarterYAxis,
+            y: flyingObjectsStarterYAxis,
         },
         createdAt: (new Date()).getTime,
         id,

@@ -1,9 +1,14 @@
 {
   "name": "aliens-go-home",
   "version": "0.1.0",
-  "engines": {
-    "node": "14.x"
-  },
+  "description": "This is a game made with react-redux",
+  "main": "web.js",
+  "keywords": [
+    "aliens",
+    "heroku"
+  ],
+  "author": "Luiz Felipe Martins",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.10",
@@ -18,13 +23,18 @@
     "redux": "^4.0.5",
     "socket.io-client": "^4.0.1",
     "styled-components": "^5.2.3",
-    "web-vitals": "^1.1.1"
+    "web-vitals": "^1.1.1",
+    "express": "^4.9.8"
+  },
+  "engines": {
+    "node": "14.x"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eject": "react-scripts eject",
+    
   },
   "eslintConfig": {
     "extends": [

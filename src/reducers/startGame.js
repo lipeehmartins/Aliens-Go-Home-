@@ -1,4 +1,4 @@
-export default (state, initialGameState) => {
+const startGame =(state, initialGameState) => {
     return {
         ...state,
         gameState: {
@@ -7,3 +7,5 @@ export default (state, initialGameState) => {
         }
     }
 };
+
+export default startGame;

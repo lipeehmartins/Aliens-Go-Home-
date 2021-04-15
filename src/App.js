@@ -15,13 +15,14 @@ Auth0.configure({
 });
 
 class App extends Component {
-
   constructor(props) {
     super(props);
     this.shoot = this.shoot.bind(this);
+    this.socket = null;
+    this.currentPlayer = null;
   }
 
-   componentDidMount() {
+  componentDidMount() {
     const self = this;
 
     Auth0.handleAuthCallback();
@@ -29,40 +30,27 @@ class App extends Component {
     Auth0.subscribe((auth) => {
       if (!auth) return;
 
-      const playerProfile = Auth0.getProfile();
-      const currentPlayer = {
-        id: playerProfile.sub,
+      self.playerProfile = Auth0.getProfile();
+      self.currentPlayer = {
+        id: self.playerProfile.sub,
         maxScore: 0,
-        name: playerProfile.name,
-        picture: playerProfile.picture,
+        name: self.playerProfile.name,
+        picture: self.playerProfile.picture,
       };
 
-      this.props.loggedIn(currentPlayer);
+      this.props.loggedIn(self.currentPlayer);
 
-      const socket = io('http://localhost:3001', {
+      self.socket = io('http://localhost:3001', {
         query: `token=${Auth0.getAccessToken()}`,
       });
 
-      let emitted = false;
-      socket.on('players', (players) => {
+      self.socket.on('players', (players) => {
         this.props.leaderboardLoaded(players);
-
-        if (emitted) return;
-        socket.emit('new-max-score', {
-          id: playerProfile.sub,
-          maxScore: 120,
-          name: playerProfile.name,
-          picture: playerProfile.picture,
+        players.forEach((player) => {
+          if (player.id === self.currentPlayer.id) {
+            self.currentPlayer.maxScore = player.maxScore;
+          }
         });
-        emitted = true;
-        setTimeout(() => {
-          socket.emit('new-max-score', {
-            id: playerProfile.sub,
-            maxScore: 222,
-            name: playerProfile.name,
-            picture: playerProfile.picture,
-          });
-        }, 5000);
       });
     });
 
@@ -72,17 +60,29 @@ class App extends Component {
 
     window.onresize = () => {
       const cnv = document.getElementById('aliens-go-home-canvas');
-        cnv.style.width = `${window.innerWidth}px`;
-        cnv.style.height = `${window.innerHeight}px`;
+      cnv.style.width = `${window.innerWidth}px`;
+      cnv.style.height = `${window.innerHeight}px`;
+    };
+    window.onresize();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.gameState.started && this.props.gameState.started) {
+      if (!this.currentPlayer) return;
+      if (this.currentPlayer.maxScore < this.props.gameState.kills) {
+        this.socket.emit('new-max-score', {
+          ...this.currentPlayer,
+          maxScore: this.props.gameState.kills,
+        });
       }
-  
-      window.onresize();
+    }
   }
 
   trackMouse(event) {
     this.canvasMousePosition = getCanvasPosition(event);
   }
-  shoot(){
+
+  shoot() {
     this.props.shoot(this.canvasMousePosition);
   }
 
@@ -105,16 +105,16 @@ App.propTypes = {
   angle: PropTypes.number.isRequired,
   gameState: PropTypes.shape({
     started: PropTypes.bool.isRequired,
-    kill: PropTypes.number.isRequired,
+    kills: PropTypes.number.isRequired,
     lives: PropTypes.number.isRequired,
-    flyingObjects: PropTypes.arrayOf(PropTypes.shape({
-      position: PropTypes.shape({
-        x: PropTypes.number.isRequired,
-        y: PropTypes.number.isRequired,
-      }).isRequired,
-      id: PropTypes.number.isRequired,
-    })).isRequired
   }).isRequired,
+  flyingObjects: PropTypes.arrayOf(PropTypes.shape({
+    position: PropTypes.shape({
+      x: PropTypes.number.isRequired,
+      y: PropTypes.number.isRequired
+    }).isRequired,
+    id: PropTypes.number.isRequired,
+  })).isRequired,
   moveObjects: PropTypes.func.isRequired,
   startGame: PropTypes.func.isRequired,
   currentPlayer: PropTypes.shape({

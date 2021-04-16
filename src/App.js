@@ -8,7 +8,7 @@ import io from 'socket.io-client';
 Auth0.configure({
   domain: 'dev-luizmartins.us.auth0.com',
   clientID: 'syh0k6rPyg5MrbzGxcrhS0IuLlEXeemf',
-  redirectUri: 'http://localhost:3000/',
+  redirectUri: 'https://git.heroku.com/aliens-go-home.git',
   responseType: 'token id_token',
   scope: 'openid profile manage:points',
   audience: 'https://aliens-go-home.digituz.com.br',

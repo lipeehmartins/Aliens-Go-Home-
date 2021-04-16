@@ -7,7 +7,7 @@ This game is a small project using Canvas/SVG/React and Redux!
 
 ## Technologies Used
 
-* React,
+* React
 * Redux
 * SVG
 
@@ -17,4 +17,4 @@ No need to install anu software, just open up index.html
 
 ## How to use ?
 
-Use this template to build your own portfolio
+Use this template to build your own game!

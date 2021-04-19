@@ -40,7 +40,7 @@ class App extends Component {
 
       this.props.loggedIn(self.currentPlayer);
 
-      self.socket = io('http://localhost:3001', {
+      self.socket = io('https://aliens-go-home.herokuapp.com/', {
         query: `token=${Auth0.getAccessToken()}`,
       });
 

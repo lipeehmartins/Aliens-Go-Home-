@@ -1,7 +1,9 @@
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import App from '../../App';
-import { leaderboardLoaded, loggedIn,
-    moveObjects, startGame, shoot } from '../../actions/index';
+import {
+  leaderboardLoaded, loggedIn,
+  moveObjects, startGame, shoot
+} from '../../actions/index';
 
 const mapStateToProps = state => ({
   angle: state.angle,
@@ -33,4 +35,4 @@ const Game = connect(
   mapDispatchToProps,
 )(App);
 
-export default Game;;
+export default Game;

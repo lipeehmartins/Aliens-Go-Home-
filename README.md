@@ -2,6 +2,8 @@
 
 This game is a small project using Canvas/SVG/React and Redux!
 
+[Live Heroku Deployment](https://aliens-go-home.herokuapp.com/)
+
 ![aliens-go-home](https://user-images.githubusercontent.com/72573694/115078115-1ef83780-9ecd-11eb-916d-f9bc5d97b51e.jpg)
 
 

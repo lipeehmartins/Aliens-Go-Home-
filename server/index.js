@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const jwksClient = require('jwks-rsa');
 
 const client = jwksClient({
-    jwksUri: 'dev-luizmartins.us.auth0.com/.well-known/jwks.json'
+    jwksUri: 'https://dev-luizmartins.us.auth0.com/.well-known/jwks.json'
 });
 
 const players = [];
